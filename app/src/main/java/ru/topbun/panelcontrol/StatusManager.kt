@@ -2,25 +2,55 @@ package ru.topbun.panelcontrol
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.location.LocationManager
+import android.media.AudioManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
+import ru.topbun.panelcontrol.ControlButtons.*
+import java.lang.reflect.Method
 import java.security.AccessController.getContext
 
 
 class StatusManager {
 
     fun defineStatus(context: Context, button: ControlButtons): Boolean = when (button) {
-        ControlButtons.WIFI -> isWifiEnabled(context)
-        ControlButtons.MOBILE_INTERNET -> isMobileInternetEnabled(context)
-        ControlButtons.BLUETOOTH -> isBluetoothEnabled()
-        ControlButtons.NO_DISTURB -> isDoNotDisturbEnabled(context)
-        ControlButtons.FLASHLIGHT -> isFlashlightEnabled(context)
-        ControlButtons.AIRPLANE -> isAirplaneModeEnabled(context)
+        WIFI -> isWifiEnabled(context)
+        MOBILE_INTERNET -> isMobileInternetEnabled(context)
+        BLUETOOTH -> isBluetoothEnabled()
+        NO_DISTURB -> isDoNotDisturbEnabled(context)
+        FLASHLIGHT -> isFlashlightEnabled(context)
+        USB -> false
+        OTG -> false
+        LOCATION -> isLocationEnabled(context)
+        MODEM -> isModemEnabled(context)
+        SIMCARD -> false
+        SOUND -> false
+        SCREEN -> false
+    }
+
+    private fun isSilentModeEnabled(context: Context): Boolean {
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return audioManager.ringerMode == AudioManager.RINGER_MODE_SILENT
+    }
+
+    private fun isModemEnabled(context: Context): Boolean {
+        val wifimanager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return try {
+            val method = wifimanager.javaClass.getDeclaredMethod("isWifiApEnabled");
+            method.isAccessible = true;
+            method.invoke(wifimanager) as Boolean
+        } catch (e: Exception) { false }
+    }
+
+    private fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     private fun isWifiEnabled(context: Context): Boolean {

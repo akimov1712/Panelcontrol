@@ -3,10 +3,10 @@ package ru.topbun.panelcontrol
 import android.Manifest
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.Camera
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
@@ -16,6 +16,18 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import ru.topbun.panelcontrol.ControlButtons.BLUETOOTH
+import ru.topbun.panelcontrol.ControlButtons.FLASHLIGHT
+import ru.topbun.panelcontrol.ControlButtons.LOCATION
+import ru.topbun.panelcontrol.ControlButtons.MOBILE_INTERNET
+import ru.topbun.panelcontrol.ControlButtons.MODEM
+import ru.topbun.panelcontrol.ControlButtons.NO_DISTURB
+import ru.topbun.panelcontrol.ControlButtons.OTG
+import ru.topbun.panelcontrol.ControlButtons.SCREEN
+import ru.topbun.panelcontrol.ControlButtons.SIMCARD
+import ru.topbun.panelcontrol.ControlButtons.SOUND
+import ru.topbun.panelcontrol.ControlButtons.USB
+import ru.topbun.panelcontrol.ControlButtons.WIFI
 
 
 sealed interface ControlManager {
@@ -24,12 +36,28 @@ sealed interface ControlManager {
 
         fun defineLongClick(context: Context, button: ControlButtons) {
             val intent = when (button) {
-                ControlButtons.WIFI -> Intent(Settings.ACTION_WIFI_SETTINGS)
-                ControlButtons.MOBILE_INTERNET -> Intent(Settings.ACTION_NETWORK_OPERATOR_SETTINGS)
-                ControlButtons.BLUETOOTH -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-                ControlButtons.NO_DISTURB -> Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS)
-                ControlButtons.FLASHLIGHT -> null
-                ControlButtons.AIRPLANE -> Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS)
+                WIFI -> Intent(Settings.ACTION_WIFI_SETTINGS)
+                MOBILE_INTERNET -> Intent(Settings.ACTION_NETWORK_OPERATOR_SETTINGS)
+                BLUETOOTH -> Intent().apply {
+                    component = ComponentName(
+                        "com.android.settings",
+                        "com.android.settings.Settings\$AdvancedConnectedDeviceActivity"
+                    )
+                }
+                NO_DISTURB -> Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS)
+                FLASHLIGHT -> null
+                USB -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                OTG -> Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                LOCATION -> Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                MODEM -> Intent().apply {
+                    component = ComponentName(
+                        "com.android.settings",
+                        "com.android.settings.Settings\$WifiTetherSettingsActivity"
+                    )
+                }
+                SIMCARD -> Intent(Settings.ACTION_MANAGE_ALL_SIM_PROFILES_SETTINGS)
+                SOUND -> Intent(Settings.ACTION_SOUND_SETTINGS)
+                SCREEN -> Intent(Settings.ACTION_DISPLAY_SETTINGS)
             }
 
             intent?.let {
@@ -49,13 +77,54 @@ sealed interface ControlManager {
 
         fun defineClick(context: Context, button: ControlButtons) {
             when (button) {
-                ControlButtons.WIFI -> toggleWifi(context)
-                ControlButtons.MOBILE_INTERNET -> toggleMobileData(context)
-                ControlButtons.BLUETOOTH -> toggleBluetooth(context)
-                ControlButtons.NO_DISTURB -> toggleDoNotDisturb(context)
-                ControlButtons.FLASHLIGHT -> toggleFlashlight(context)
-                ControlButtons.AIRPLANE -> toggleAirplaneMode(context)
+                WIFI -> toggleWifi(context)
+                MOBILE_INTERNET -> toggleMobileData(context)
+                BLUETOOTH -> toggleBluetooth(context)
+                NO_DISTURB -> toggleDoNotDisturb(context)
+                FLASHLIGHT -> toggleFlashlight(context)
+                USB -> toggleUSB(context)
+                OTG -> toggleOTGMode(context)
+                LOCATION -> toggleLocation(context)
+                MODEM -> toggleModem(context)
+                SIMCARD -> toggleSimcard(context)
+                SOUND -> toggleSound(context)
+                SCREEN -> toggleAutobrig(context)
             }
+        }
+
+        private fun toggleAutobrig(context: Context){
+            val intent = Intent(Settings.ACTION_DISPLAY_SETTINGS)
+            context.startActivity(intent)
+        }
+
+        private fun toggleSound(context: Context){
+            val intent = Intent(Settings.ACTION_SOUND_SETTINGS)
+            context.startActivity(intent)
+        }
+
+        private fun toggleSimcard(context: Context){
+            val intent = Intent(Settings.ACTION_MANAGE_ALL_SIM_PROFILES_SETTINGS)
+            context.startActivity(intent)
+        }
+
+        private fun toggleModem(context: Context) {
+            val tetherSettings = Intent().apply {
+                component = ComponentName(
+                    "com.android.settings",
+                    "com.android.settings.Settings\$WifiTetherSettingsActivity"
+                )
+            }
+            context.startActivity(tetherSettings)
+        }
+
+        private fun toggleLocation(context: Context) {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            context.startActivity(intent)
+        }
+
+        private fun toggleUSB(context: Context) {
+            val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+            context.startActivity(intent)
         }
 
         private fun toggleWifi(context: Context) {
@@ -138,12 +207,17 @@ sealed interface ControlManager {
         }
 
         private fun toggleAirplaneMode(context: Context) {
-            val isEnabled = Settings.Global.getInt(context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
-            Settings.Global.putInt(context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, if (isEnabled) 0 else 1)
-            val intent = android.content.Intent(android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED).apply {
-                putExtra("state", !isEnabled)
+            context.startActivity(Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS))
+        }
+
+        private fun toggleOTGMode(context: Context) {
+            try {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                context.startActivity(intent)
+            } catch (e: Exception) {
+                val fallbackIntent = Intent(android.provider.Settings.ACTION_SETTINGS)
+                context.startActivity(fallbackIntent)
             }
-            context.sendBroadcast(intent)
         }
 
     }

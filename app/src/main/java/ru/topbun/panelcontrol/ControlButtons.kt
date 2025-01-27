@@ -30,9 +30,39 @@ enum class ControlButtons(
         icon = R.drawable.ic_disturb
     ),
 
-    AIRPLANE(
-        label = "Режим полета",
-        icon = R.drawable.ic_airplane
+    USB(
+        label = "Настройка USB",
+        icon = R.drawable.ic_usb
     ),
+
+    OTG(
+        label = "Режим OTG",
+        icon = R.drawable.ic_otg
+    ),
+
+    LOCATION(
+        label = "Геолокация",
+        icon = R.drawable.ic_location
+    ),
+
+    MODEM(
+        label = "Точка доступа",
+        icon = R.drawable.ic_modem
+    ),
+
+    SIMCARD(
+        label = "Сим-карта",
+        icon = R.drawable.ic_simcard
+    ),
+
+    SOUND(
+        label = "Звук и мелодия",
+        icon = R.drawable.ic_sound
+    ),
+
+    SCREEN(
+        label = "Настройка экрана",
+        icon = R.drawable.ic_autobrig
+    )
 
 }

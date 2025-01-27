@@ -50,7 +50,8 @@ android {
 }
 
 dependencies {
-
+    implementation ("androidx.datastore:datastore-preferences:1.1.2")
+    implementation("sh.calvin.reorderable:reorderable:2.4.3")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
     implementation(libs.androidx.core.ktx)
