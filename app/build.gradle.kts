@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "ru.topbun.panelcontrol"
+    namespace = "ru.kts.panelcontrolc65"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ru.topbun.panelcontrol"
+        applicationId = "ru.kts.panelcontrolcWithoutOtgUsb"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol.ui.theme
+package ru.kts.panelcontrolc65.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

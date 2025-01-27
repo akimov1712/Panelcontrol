@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol
+package ru.kts.panelcontrolc65
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -12,7 +12,7 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
-import ru.topbun.panelcontrol.ControlButtons.*
+import ru.kts.panelcontrolc65.ControlButtons.*
 import java.lang.reflect.Method
 import java.security.AccessController.getContext
 

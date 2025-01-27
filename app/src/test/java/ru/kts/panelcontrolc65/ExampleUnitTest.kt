@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol
+package ru.kts.panelcontrolc65
 
 import org.junit.Test
 

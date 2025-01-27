@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol
+package ru.kts.panelcontrolc65
 
 import android.Manifest
 import android.content.Context
@@ -59,18 +59,18 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.topbun.panelcontrol.ControlButtons.BLUETOOTH
-import ru.topbun.panelcontrol.ControlButtons.FLASHLIGHT
-import ru.topbun.panelcontrol.ControlButtons.LOCATION
-import ru.topbun.panelcontrol.ControlButtons.MOBILE_INTERNET
-import ru.topbun.panelcontrol.ControlButtons.MODEM
-import ru.topbun.panelcontrol.ControlButtons.NO_DISTURB
-import ru.topbun.panelcontrol.ControlButtons.OTG
-import ru.topbun.panelcontrol.ControlButtons.SCREEN
-import ru.topbun.panelcontrol.ControlButtons.SIMCARD
-import ru.topbun.panelcontrol.ControlButtons.SOUND
-import ru.topbun.panelcontrol.ControlButtons.USB
-import ru.topbun.panelcontrol.ControlButtons.WIFI
+import ru.kts.panelcontrolc65.ControlButtons.BLUETOOTH
+import ru.kts.panelcontrolc65.ControlButtons.FLASHLIGHT
+import ru.kts.panelcontrolc65.ControlButtons.LOCATION
+import ru.kts.panelcontrolc65.ControlButtons.MOBILE_INTERNET
+import ru.kts.panelcontrolc65.ControlButtons.MODEM
+import ru.kts.panelcontrolc65.ControlButtons.NO_DISTURB
+import ru.kts.panelcontrolc65.ControlButtons.OTG
+import ru.kts.panelcontrolc65.ControlButtons.SCREEN
+import ru.kts.panelcontrolc65.ControlButtons.SIMCARD
+import ru.kts.panelcontrolc65.ControlButtons.SOUND
+import ru.kts.panelcontrolc65.ControlButtons.USB
+import ru.kts.panelcontrolc65.ControlButtons.WIFI
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
 

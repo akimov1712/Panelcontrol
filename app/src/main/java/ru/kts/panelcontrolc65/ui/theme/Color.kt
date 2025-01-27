@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol.ui.theme
+package ru.kts.panelcontrolc65.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

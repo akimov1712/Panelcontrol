@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol
+package ru.kts.panelcontrolc65
 
 import android.Manifest
 import android.content.Context

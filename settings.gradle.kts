@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Panel control"
 include(":app")
- 

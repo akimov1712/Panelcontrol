@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol.ui.theme
+package ru.kts.panelcontrolc65.ui.theme
 
 import android.app.Activity
 import android.os.Build

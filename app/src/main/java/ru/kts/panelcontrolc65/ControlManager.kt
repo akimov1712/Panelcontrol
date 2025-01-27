@@ -1,4 +1,4 @@
-package ru.topbun.panelcontrol
+package ru.kts.panelcontrolc65
 
 import android.Manifest
 import android.app.NotificationManager
@@ -16,18 +16,18 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
-import ru.topbun.panelcontrol.ControlButtons.BLUETOOTH
-import ru.topbun.panelcontrol.ControlButtons.FLASHLIGHT
-import ru.topbun.panelcontrol.ControlButtons.LOCATION
-import ru.topbun.panelcontrol.ControlButtons.MOBILE_INTERNET
-import ru.topbun.panelcontrol.ControlButtons.MODEM
-import ru.topbun.panelcontrol.ControlButtons.NO_DISTURB
-import ru.topbun.panelcontrol.ControlButtons.OTG
-import ru.topbun.panelcontrol.ControlButtons.SCREEN
-import ru.topbun.panelcontrol.ControlButtons.SIMCARD
-import ru.topbun.panelcontrol.ControlButtons.SOUND
-import ru.topbun.panelcontrol.ControlButtons.USB
-import ru.topbun.panelcontrol.ControlButtons.WIFI
+import ru.kts.panelcontrolc65.ControlButtons.BLUETOOTH
+import ru.kts.panelcontrolc65.ControlButtons.FLASHLIGHT
+import ru.kts.panelcontrolc65.ControlButtons.LOCATION
+import ru.kts.panelcontrolc65.ControlButtons.MOBILE_INTERNET
+import ru.kts.panelcontrolc65.ControlButtons.MODEM
+import ru.kts.panelcontrolc65.ControlButtons.NO_DISTURB
+import ru.kts.panelcontrolc65.ControlButtons.OTG
+import ru.kts.panelcontrolc65.ControlButtons.SCREEN
+import ru.kts.panelcontrolc65.ControlButtons.SIMCARD
+import ru.kts.panelcontrolc65.ControlButtons.SOUND
+import ru.kts.panelcontrolc65.ControlButtons.USB
+import ru.kts.panelcontrolc65.ControlButtons.WIFI
 
 
 sealed interface ControlManager {
@@ -47,7 +47,9 @@ sealed interface ControlManager {
                 NO_DISTURB -> Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS)
                 FLASHLIGHT -> null
                 USB -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-                OTG -> Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                OTG -> Intent().apply {
+                    setClassName("com.android.settings", "com.android.settings.Settings\$SystemDashboardActivity")
+                }
                 LOCATION -> Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 MODEM -> Intent().apply {
                     component = ComponentName(
@@ -212,12 +214,11 @@ sealed interface ControlManager {
 
         private fun toggleOTGMode(context: Context) {
             try {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val intent = Intent().apply {
+                    setClassName("com.android.settings", "com.android.settings.Settings\$SystemDashboardActivity")
+                }
                 context.startActivity(intent)
-            } catch (e: Exception) {
-                val fallbackIntent = Intent(android.provider.Settings.ACTION_SETTINGS)
-                context.startActivity(fallbackIntent)
-            }
+            } catch (e: Exception){}
         }
 
     }
