@@ -153,7 +153,12 @@ sealed interface ControlManager {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                 if (bluetoothAdapter.isEnabled) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                        val intent = Intent().apply {
+                            component = ComponentName(
+                                "com.android.settings",
+                                "com.android.settings.Settings\$AdvancedConnectedDeviceActivity"
+                            )
+                        }
                         context.startActivity(intent)
                     } else { bluetoothAdapter.disable() }
                 } else {
